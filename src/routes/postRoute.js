@@ -8,7 +8,7 @@ import role from "../middleware/role.js";
 import { checkUserStatus } from "../controllers/admin.js";
 
 
-router.post("/article", role(['Writer']), checkUserStatus(['Active']), auth, upload.single('image'), createArticle)
+router.post("/article",auth, role(['Writer']), checkUserStatus(['Active']), upload.single('image'), createArticle)
 
 router.patch("/article/:id", role(['Writer']), checkUserStatus(['Active']), updateArticle);
 

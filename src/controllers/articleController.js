@@ -71,7 +71,7 @@ export const getArticlesByCategory = async (req, res) => {
     try {
         const { category } = req.params;
 
-        const articles = await Application.aggregate([
+        const articles = await Application.find([
             { $unwind: "$articles" },
             { $match: { "articles.category": category } },
             { $project: { "articles": 1, _id: 0 } }
@@ -82,6 +82,8 @@ export const getArticlesByCategory = async (req, res) => {
         if (filteredArticles.length === 0) {
             return res.status(404).json({ message: 'No articles found in this category.' });
         }
+
+        filteredArticles.sort((a, b) => b.createdAt - a.createdAt);
 
         res.status(200).json(filteredArticles);
     } catch (error) {

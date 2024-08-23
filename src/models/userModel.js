@@ -12,7 +12,8 @@ const userSchema = mongoose.Schema({
     required: true
   },
   userName: {
-    type: String
+    type: String,
+    unique: true
   },
   password: {
     type: String,
@@ -41,7 +42,7 @@ const userSchema = mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['Inactive', 'Inactive'],
+    enum: ['Inactive', 'Active'],
     default: 'Inactive'
   }
 

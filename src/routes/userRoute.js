@@ -7,6 +7,6 @@ import { checkUserStatus } from '../controllers/admin.js';
 const router = express.Router();
 
 router.get('/profile', auth, checkUserStatus(['Active']), getUserProfile);
-router.get('writer', getProfile)
+router.get('writer/:id', getProfile)
 
 export default router;

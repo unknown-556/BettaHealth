@@ -78,8 +78,17 @@ export const toggleStatus = async (req, res) => {
 
 export const checkUserStatus = (allowedStatuses) => {
     return (req, res, next) => {
+        console.log('req.user:', req.user); 
+  
+      if (!req.user) {
+        return res.status(401).json({ msg: 'User not authenticated' });
+      }
+  
+      if (!req.user.status) {
+        return res.status(403).json({ msg: 'User status not defined' });
+      }
         if (!allowedStatuses.includes(req.user.status)) {
-            return res.status(403).json({ msg: 'Access denied' });
+            return res.status(403).json({ msg: 'Your account is not active' });
         }
         next();
     };
