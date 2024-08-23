@@ -54,7 +54,7 @@ const articleSchema = new mongoose.Schema({
   ],
 });
 
-// Define the data schema
+
 const dataSchema = new mongoose.Schema({
   firstName: {
     type: String,
@@ -144,7 +144,6 @@ const dataSchema = new mongoose.Schema({
   articles: [articleSchema],
 });
 
-// Create and export the model
 const Application = mongoose.model("Application", dataSchema);
 
 export default Application;

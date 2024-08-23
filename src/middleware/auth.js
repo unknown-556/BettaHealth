@@ -12,7 +12,8 @@ export const auth = async (req, res, next) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         console.log(`Decoded Token: ${JSON.stringify(decoded)}`);
 
-        const user = await User.findOne({ _id: decoded._id });
+        const user = await User.findById(decoded.userId).select("-password");
+
         console.log('Found user:', user);
         if (!user) {
             console.log(`User not found for ID: ${decoded._id}`);

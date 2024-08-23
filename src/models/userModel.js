@@ -29,12 +29,21 @@ const userSchema = mongoose.Schema({
   resetPasswordExpires: {
       type: Date,
   },
+  isFrozen: {
+    type: Boolean,
+    default: false
+  },
 
   role: {
     type: String,
     enum: ['Reader', 'Writer'],
     default: 'Reader',
-}
+  },
+  status: {
+    type: String,
+    enum: ['Inactive', 'Inactive'],
+    default: 'Inactive'
+  }
 
 
   

@@ -6,6 +6,7 @@ import http from 'http';
 import { Server } from 'socket.io'; 
 import router from './src/routes/index.js';
 import connectDB from './database.js';
+import { checkUserStatus } from './src/controllers/admin.js';
 
 
 dotenv.config();
@@ -20,6 +21,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/api/betta', router);
 app.use(express.json())
+
+
+app.get('/restricted', checkUserStatus(['Active']), (req, res) => {
+    res.send('Access granted');
+});
 
 
 
