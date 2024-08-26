@@ -59,8 +59,8 @@ export const apply = async (req, res) => {
 
             const application = new Application({
                 ...req.body,
-                firstname: user.firstName,
-                lastname: user.lastName,
+                firstName: user.firstName,
+                lastName: user.lastName,
                 email: user.email,
                 profilePictureUrl: profilePictureUrl,
                 jobType: jobType,

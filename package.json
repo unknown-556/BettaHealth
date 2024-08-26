@@ -5,6 +5,7 @@
   "type": "module",
   "main": "sever.js",
   "scripts": {
+    "seed": "node SRC/seed/adminSeeder.js",
     "dev": "nodemon server.js",
     "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"

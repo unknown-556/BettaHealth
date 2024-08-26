@@ -7,8 +7,11 @@ import mongoose from "mongoose";
 export const addComment = async (req, res) => {
     try {
         const user = await User.findById(req.user._id);
-        const { text  } = req.body;
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
 
+        const { text, image } = req.body; 
         let imageUrl = "";
 
         if (image) {
@@ -16,33 +19,32 @@ export const addComment = async (req, res) => {
                 resource_type: 'auto',
             });
             imageUrl = uploadResponse.secure_url;
-            console.log('Image 1 uploaded successfully:', imageUrl);
+            console.log('Image uploaded successfully:', imageUrl);
         }
-;
 
-        
-        // const name = `${user.firstName} ${user.lastName}`;
         const comment = {
             image: imageUrl,
             text, 
-            postedBy: user.userName,
+            postedBy: user.userName || `${user.firstName} ${user.lastName}`,
         };
 
-        const { id } = req.params;
+        const { applicationId, articleId } = req.params;
 
-        const updatedProfile = await Application.findByIdAndUpdate(
-            id,
-            { $push: { comment: comment } },
+
+        const application = await Application.findOneAndUpdate(
+            { _id: applicationId, 'articles._id': articleId },
+            { $push: { 'articles.$.comments': comment } }, 
             { new: true }
         );
 
-        if (!updatedProfile) {
-            return res.status(404).json({ message: 'Profile not found' });
+        if (!application) {
+            return res.status(404).json({ message: 'Application or article not found' });
         }
 
-        res.status(201).send(updatedProfile);
+        const updatedArticle = application.articles.id(articleId);
+        res.status(201).send(updatedArticle);
     } catch (error) {
-        console.error('Error creating article:', error);
+        console.error('Error adding comment:', error);
         res.status(400).send({ error: error.message });
     }
 };
